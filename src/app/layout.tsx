@@ -9,6 +9,12 @@ import {
   Big_Shoulders_Display,
   Plus_Jakarta_Sans,
   Space_Mono,
+  Onest,
+  Instrument_Serif,
+  DM_Mono,
+  Bagel_Fat_One,
+  Outfit,
+  VT323,
 } from 'next/font/google';
 import './globals.css';
 import { VersionSwitcher } from '@/components/VersionSwitcher';
@@ -74,6 +80,45 @@ const v3Mono = Space_Mono({
   weight: ['400', '700'],
 });
 
+// V4 — Aurora SaaS
+const v4Sans = Onest({
+  subsets: ['latin'],
+  variable: '--font-v4-sans',
+  display: 'swap',
+});
+const v4Serif = Instrument_Serif({
+  subsets: ['latin'],
+  variable: '--font-v4-serif',
+  display: 'swap',
+  weight: ['400'],
+  style: ['normal', 'italic'],
+});
+const v4Mono = DM_Mono({
+  subsets: ['latin'],
+  variable: '--font-v4-mono',
+  display: 'swap',
+  weight: ['400', '500'],
+});
+
+// V5 — Iridescent Chrome
+const v5Display = Bagel_Fat_One({
+  subsets: ['latin'],
+  variable: '--font-v5-display',
+  display: 'swap',
+  weight: ['400'],
+});
+const v5Body = Outfit({
+  subsets: ['latin'],
+  variable: '--font-v5-body',
+  display: 'swap',
+});
+const v5Mono = VT323({
+  subsets: ['latin'],
+  variable: '--font-v5-mono',
+  display: 'swap',
+  weight: ['400'],
+});
+
 export const metadata: Metadata = {
   title: 'Cuban Bucket List — Real Cuba, real people, experiences worth telling',
   description:
@@ -99,7 +144,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable} ${hand.variable} ${v2Display.variable} ${v2Body.variable} ${v2Mono.variable} ${v3Display.variable} ${v3Body.variable} ${v3Mono.variable}`}
+      className={`${display.variable} ${sans.variable} ${hand.variable} ${v2Display.variable} ${v2Body.variable} ${v2Mono.variable} ${v3Display.variable} ${v3Body.variable} ${v3Mono.variable} ${v4Sans.variable} ${v4Serif.variable} ${v4Mono.variable} ${v5Display.variable} ${v5Body.variable} ${v5Mono.variable}`}
     >
       <body className="antialiased">
         <VersionSwitcher />

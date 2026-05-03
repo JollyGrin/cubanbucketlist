@@ -9,11 +9,26 @@ const versions = [
   { id: 'v1', href: '/', label: 'V1', tag: 'Travel Journal' },
   { id: 'v2', href: '/v2/', label: 'V2', tag: 'Cinematic Noir' },
   { id: 'v3', href: '/v3/', label: 'V3', tag: 'Pop Maximalist' },
+  { id: 'v4', href: '/v4/', label: 'V4', tag: 'Aurora SaaS' },
+  { id: 'v5', href: '/v5/', label: 'V5', tag: 'Iridescent Chrome' },
 ];
+
+const dotColors: Record<string, string> = {
+  v1: '#E5613D', v2: '#E8A445', v3: '#FF3D7F', v4: '#A78BFA', v5: '#22D3EE',
+};
+const activeBg: Record<string, string> = {
+  v1: 'bg-[#E5613D] text-white',
+  v2: 'bg-[#E8A445] text-black',
+  v3: 'bg-[#FF3D7F] text-white',
+  v4: 'bg-[#A78BFA] text-black',
+  v5: 'bg-gradient-to-r from-[#22D3EE] via-[#FF6BD6] to-[#FFD166] text-black',
+};
 
 const STORAGE_KEY = 'cbl-switcher-hidden';
 
 function activeFor(pathname: string) {
+  if (pathname.startsWith('/v5')) return 'v5';
+  if (pathname.startsWith('/v4')) return 'v4';
   if (pathname.startsWith('/v3')) return 'v3';
   if (pathname.startsWith('/v2')) return 'v2';
   return 'v1';
@@ -66,13 +81,7 @@ export function VersionSwitcher() {
                   href={v.href}
                   prefetch={false}
                   className={`group relative inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors md:px-3 md:py-1.5 ${
-                    isActive
-                      ? v.id === 'v1'
-                        ? 'bg-[#E5613D] text-white'
-                        : v.id === 'v2'
-                          ? 'bg-[#E8A445] text-black'
-                          : 'bg-[#FF3D7F] text-white'
-                      : 'text-white/70 hover:bg-white/10 hover:text-white'
+                    isActive ? activeBg[v.id] : 'text-white/70 hover:bg-white/10 hover:text-white'
                   }`}
                   aria-current={isActive ? 'page' : undefined}
                 >
@@ -109,9 +118,9 @@ export function VersionSwitcher() {
           transition={{ duration: 0.2 }}
           className="fixed right-3 top-3 z-[60] inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/70 shadow-[0_4px_16px_rgba(0,0,0,0.25)] backdrop-blur-md transition-colors hover:bg-black/75 hover:text-white"
         >
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#E5613D]" />
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#E8A445]" />
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF3D7F]" />
+          {versions.map((v) => (
+            <span key={v.id} className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: dotColors[v.id] }} />
+          ))}
           <span className="ml-1">Mockups</span>
         </motion.button>
       )}
