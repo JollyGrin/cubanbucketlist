@@ -10,7 +10,7 @@ import { Footer } from '@/components/Footer';
 
 export default function Page() {
   return (
-    <main className="relative">
+    <main className="grain relative font-sans">
       <Nav />
       <Hero />
       <TheIdea />
