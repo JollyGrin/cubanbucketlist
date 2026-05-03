@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-parchment: #F5EFE3;
+  --color-ink: #1B1814;
+  --color-teal: #0E5F5A;
+  --color-coral: #E5613D;
+  --color-mustard: #D9A441;
+  --color-terracotta: #A8462C;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-parchment);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Paper grain — applied to a fixed overlay */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.36 0 0 0 0 0.27 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Vintage paper texture for cards */
+.paper-card {
+  background:
+    radial-gradient(at 20% 0%, rgba(217, 164, 65, 0.08), transparent 50%),
+    radial-gradient(at 80% 100%, rgba(168, 70, 44, 0.06), transparent 50%),
+    #FBF7EE;
+}
+
+/* Hide scrollbar but keep scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Snap scroll for mobile carousels */
+.snap-x-mandatory {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-start { scroll-snap-align: start; }
+
+/* Postage stamp dotted edge */
+.stamp-edge {
+  --c: var(--color-parchment);
+  -webkit-mask:
+    radial-gradient(circle 5px at 5px 5px, transparent 98%, #000 100%) -5px -5px / 12px 12px;
+          mask:
+    radial-gradient(circle 5px at 5px 5px, transparent 98%, #000 100%) -5px -5px / 12px 12px;
+}
+
+/* Editorial drop cap */
+.drop-cap::first-letter {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 4.5rem;
+  line-height: 0.85;
+  float: left;
+  padding: 0.4rem 0.6rem 0 0;
+  color: var(--color-coral);
+}
+
+/* Subtle ink underline */
+.ink-underline {
+  background-image: linear-gradient(transparent 60%, rgba(229, 97, 61, 0.35) 60%, rgba(229, 97, 61, 0.35) 92%, transparent 92%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+/* Heart pop */
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.45); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+.heart-pop { animation: heart-pop 0.55s cubic-bezier(.36,.07,.19,.97); }
+
+/* Section number — big editorial */
+.section-numeral {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-coral);
+  color: var(--color-parchment);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
