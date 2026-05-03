@@ -53,7 +53,7 @@ export function WhyUs() {
           transition={{ duration: 0.55 }}
           className="mb-12 flex items-baseline gap-3 text-coral md:mb-16"
         >
-          <span className="section-numeral text-3xl md:text-4xl">VII.</span>
+          <span className="section-numeral text-3xl md:text-4xl">VIII.</span>
           <span className="font-sans text-[11px] uppercase tracking-[0.32em]">Why Cuban Bucket List</span>
         </motion.div>
 

@@ -1,22 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { experiences, trending } from '@/lib/data';
-import { iconMap, InstagramGlyph } from './icons';
+import { iconMap } from './icons';
 import { VoteCard } from './VoteCard';
 
 export function VoteSection() {
-  const [signedIn, setSignedIn] = useState(false);
-  const [signingIn, setSigningIn] = useState(false);
-  const username = '@havana_in_amber';
+  const [verified, setVerified] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const signinRef = useRef<HTMLDivElement>(null);
 
-  const handleSignIn = async () => {
-    if (signingIn || signedIn) return;
-    setSigningIn(true);
+  const verify = async () => {
+    if (verifying || verified) return;
+    if (!email.trim()) {
+      setError('Drop your email first.');
+      emailInputRef.current?.focus();
+      return;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setError('That doesn’t look quite right.');
+      emailInputRef.current?.focus();
+      return;
+    }
+    setError(null);
+    setVerifying(true);
     await new Promise((r) => setTimeout(r, 900));
-    setSigningIn(false);
-    setSignedIn(true);
+    setVerifying(false);
+    setVerified(true);
+  };
+
+  const onPromptVerify = () => {
+    // scroll the sign-in panel into view + focus the input so the gating moment is obvious
+    signinRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => emailInputRef.current?.focus(), 350);
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    verify();
   };
 
   return (
@@ -33,7 +58,6 @@ export function VoteSection() {
             'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(217,164,65,0.18), transparent 60%), radial-gradient(ellipse 60% 50% at 90% 90%, rgba(229,97,61,0.20), transparent 60%), radial-gradient(ellipse 60% 50% at 10% 90%, rgba(14,95,90,0.30), transparent 60%)',
         }}
       />
-      {/* Background numeral */}
       <div aria-hidden className="pointer-events-none absolute -left-10 top-10 select-none font-display text-[280px] font-light leading-none tracking-tighter text-parchment/[0.04] md:-left-12 md:text-[420px]">
         IV
       </div>
@@ -61,7 +85,7 @@ export function VoteSection() {
             trips.
           </h2>
           <p className="mt-4 max-w-2xl font-sans text-base text-parchment/80 sm:text-lg">
-            Sign in with Instagram to vote on the experiences you want us to turn into real packages.
+            Drop your email to vote on the experiences you want us to turn into real packages.
             Top voted ideas get launched first — and voters get early access + special perks.
           </p>
         </motion.div>
@@ -115,16 +139,17 @@ export function VoteSection() {
           </div>
         </motion.div>
 
-        {/* Sign-in panel OR voted-in chip */}
+        {/* Email-verify panel OR voting-as chip */}
         <motion.div
+          ref={signinRef}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55, delay: 0.15 }}
-          className="mb-8"
+          className="mb-8 scroll-mt-24"
         >
           <AnimatePresence mode="wait">
-            {!signedIn ? (
+            {!verified ? (
               <motion.div
                 key="signin"
                 initial={{ opacity: 0 }}
@@ -132,39 +157,75 @@ export function VoteSection() {
                 exit={{ opacity: 0, y: -10 }}
                 className="relative overflow-hidden rounded-3xl border-2 border-parchment/15 bg-gradient-to-br from-coral via-coral to-mustard p-6 text-parchment md:p-8"
               >
-                <div className="flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col items-start gap-5">
                   <div>
                     <p className="font-hand text-xl text-parchment/95">
-                      Vote with your Instagram, get early access ↓
+                      Drop your email to start voting ↓
                     </p>
-                    <p className="mt-1 max-w-xl font-sans text-sm text-parchment/85">
-                      We don’t post anything. We just use it to make sure votes are real human votes.
+                    <p className="mt-1 max-w-2xl font-sans text-sm text-parchment/85">
+                      We won’t email you unless you ask us to. Just used to make sure each vote is a real human.
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleSignIn}
-                    disabled={signingIn}
-                    className="group relative inline-flex w-full items-center justify-center gap-2.5 rounded-2xl border-2 border-ink bg-ink px-6 py-4 font-sans text-sm font-semibold uppercase tracking-[0.18em] text-parchment shadow-[3px_3px_0_0_var(--color-parchment)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0_0_var(--color-parchment)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0_0_var(--color-parchment)] disabled:opacity-80 md:w-auto animate-pulse-glow"
-                  >
-                    <InstagramGlyph className="h-5 w-5" />
-                    {signingIn ? 'Connecting…' : 'Sign in with Instagram to vote'}
-                  </button>
+
+                  <form onSubmit={onSubmit} className="w-full">
+                    <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:gap-0">
+                      <label className="sr-only" htmlFor="vote-email">Email address</label>
+                      <input
+                        id="vote-email"
+                        ref={emailInputRef}
+                        type="email"
+                        required
+                        autoComplete="email"
+                        placeholder="your@email.com"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
+                        className="w-full flex-1 rounded-2xl border-2 border-ink bg-parchment-50 px-5 py-4 font-sans text-base text-ink placeholder:text-ink-muted focus:outline-none sm:rounded-r-none sm:border-r-0"
+                      />
+                      <button
+                        type="submit"
+                        disabled={verifying}
+                        className="group inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-ink bg-ink px-6 py-4 font-sans text-sm font-semibold uppercase tracking-[0.18em] text-parchment shadow-[3px_3px_0_0_var(--color-parchment)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0_0_var(--color-parchment)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0_0_var(--color-parchment)] disabled:opacity-80 sm:rounded-l-none sm:border-l-2 animate-pulse-glow"
+                      >
+                        {verifying ? (
+                          <span className="inline-flex items-center gap-2">
+                            <span className="h-3 w-3 animate-spin rounded-full border-2 border-parchment border-t-transparent" />
+                            Verifying…
+                          </span>
+                        ) : (
+                          <>
+                            Start voting
+                            <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    {error && (
+                      <p className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-ink/20 px-2 py-1 font-sans text-xs text-parchment">
+                        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                          <circle cx="12" cy="12" r="9" />
+                          <path d="M12 7v5 M12 16v.5" />
+                        </svg>
+                        {error}
+                      </p>
+                    )}
+                  </form>
                 </div>
               </motion.div>
             ) : (
               <motion.div
-                key="signedin"
+                key="voting-as"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex flex-wrap items-center gap-3 rounded-3xl border-2 border-mustard/40 bg-parchment/5 p-5 text-parchment"
               >
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-coral via-mustard to-coral text-ink">
-                  <InstagramGlyph className="h-5 w-5" />
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12l5 5L20 7" />
+                  </svg>
                 </span>
                 <div className="flex flex-col leading-tight">
-                  <span className="font-hand text-lg text-mustard">signed in as</span>
-                  <span className="font-display text-xl font-semibold text-parchment">{username}</span>
+                  <span className="font-hand text-lg text-mustard">voting as</span>
+                  <span className="font-display text-xl font-semibold text-parchment break-all">{email}</span>
                 </div>
                 <span className="ml-auto rounded-full border border-teal-light/40 bg-teal-light/10 px-3 py-1 font-sans text-[11px] uppercase tracking-[0.18em] text-teal-light">
                   3 votes available today
@@ -180,7 +241,7 @@ export function VoteSection() {
           <div className="snap-x-mandatory no-scrollbar flex gap-4 overflow-x-auto px-5 pb-4">
             {experiences.map((exp) => (
               <div key={exp.id} id={`vote-${exp.id}`} className="snap-start w-[84%] shrink-0">
-                <VoteCard exp={exp} signedIn={signedIn} onPromptSignIn={handleSignIn} />
+                <VoteCard exp={exp} signedIn={verified} onPromptSignIn={onPromptVerify} />
               </div>
             ))}
             <div className="w-2 shrink-0" aria-hidden />
@@ -194,7 +255,7 @@ export function VoteSection() {
         <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
           {experiences.map((exp) => (
             <div key={exp.id} id={`vote-${exp.id}`}>
-              <VoteCard exp={exp} signedIn={signedIn} onPromptSignIn={handleSignIn} />
+              <VoteCard exp={exp} signedIn={verified} onPromptSignIn={onPromptVerify} />
             </div>
           ))}
         </div>

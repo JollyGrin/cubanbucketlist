@@ -155,7 +155,7 @@ export function VoteCard({
 
           {!signedIn && (
             <p className="mt-2 text-center font-hand text-base text-ink-muted">
-              tap to sign in & vote ↑
+              add your email to vote ↑
             </p>
           )}
         </div>

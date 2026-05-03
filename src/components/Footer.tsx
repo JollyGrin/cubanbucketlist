@@ -49,12 +49,10 @@ export function Footer() {
           </div>
           <div className="md:col-span-5">
             <NewsletterForm variant="footer" />
-            <a
-              href="#vote"
-              className="mt-5 inline-flex items-center gap-2 font-hand text-lg text-mustard"
-            >
-              <InstagramGlyph className="h-5 w-5" /> or jump straight to voting →
-            </a>
+            <div className="mt-5 flex flex-col items-start gap-2 font-hand text-lg text-mustard">
+              <a href="#vote" className="hover:text-parchment">→ or jump straight to voting</a>
+              <a href="#join" className="hover:text-parchment">→ want to be involved? say hi</a>
+            </div>
           </div>
         </motion.div>
 
@@ -67,6 +65,7 @@ export function Footer() {
             <a href="#experiences" className="hover:text-parchment">Experiences</a>
             <a href="#vote" className="text-mustard hover:text-mustard">Vote</a>
             <a href="#network" className="hover:text-parchment">Locals</a>
+            <a href="#join" className="hover:text-parchment">Join us</a>
           </div>
           <div className="flex items-center gap-3">
             <SocialLink href="#" label="Instagram"><InstagramGlyph className="h-4 w-4" /></SocialLink>

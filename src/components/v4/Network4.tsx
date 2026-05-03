@@ -1,7 +1,8 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { network } from '@/lib/data';
-import { BlurReveal } from './primitives';
+import { Flourish } from './Cartouche';
 
 const tones: Record<string, { from: string; to: string }> = {
   teal: { from: '#0E5F5A', to: '#08443F' },
@@ -10,28 +11,31 @@ const tones: Record<string, { from: string; to: string }> = {
   terracotta: { from: '#A8462C', to: '#7E3320' },
 };
 
-const provinces = ['Havana', 'Trinidad', 'Viñales', 'Santiago', 'Baracoa', 'Cienfuegos', 'Camagüey', 'Granma', 'Holguín', 'Pinar del Río'];
+const ports = ['Habana', 'Trinidad', 'Viñales', 'Santiago', 'Baracoa', 'Cienfuegos', 'Camagüey', 'Granma', 'Holguín', 'Matanzas'];
 
 export function Network4() {
   return (
-    <section id="network" className="relative border-t v4-rule py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <BlurReveal>
-          <span className="v4-mono text-[10px] uppercase tracking-[0.32em] text-[var(--v4-violet)]">06 — the network</span>
-          <h2 className="mt-3 max-w-3xl text-balance text-4xl font-medium tracking-[-0.02em] md:text-6xl">
-            44 locals across 11 provinces. <span className="v4-serif italic font-normal text-[var(--v4-cyan)]">All paid first.</span>
+    <section id="network" className="relative border-t-2 border-[var(--v4-ink)] v4-parchment py-20 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }}
+          className="mb-12"
+        >
+          <span className="v4-sc text-[10px] uppercase tracking-[0.32em] text-[var(--v4-crimson)]">Chap. VI — Ports of Call</span>
+          <h2 className="mt-4 v4-display text-4xl leading-[1.02] text-[var(--v4-ink)] sm:text-5xl md:text-7xl">
+            Forty-four <em className="text-[var(--v4-crimson)]">guides &amp; hosts</em> across XI provinces.
           </h2>
-        </BlurReveal>
+          <Flourish className="mt-6 h-3 w-56 text-[var(--v4-ink)]" />
+        </motion.div>
 
-        {/* Marquee strip */}
-        <div className="mt-10 v4-marquee-pause overflow-hidden border-y v4-rule py-4">
-          <div className="v4-marquee flex w-max items-center gap-8 whitespace-nowrap text-2xl font-medium text-white/40 md:text-3xl">
+        {/* Ports marquee */}
+        <div className="overflow-hidden border-y-2 border-[var(--v4-ink)] bg-[var(--v4-vellum-2)] py-3 mb-12">
+          <div className="v4-marquee flex w-max items-center gap-10 whitespace-nowrap v4-display italic text-2xl text-[var(--v4-ink)] md:text-3xl">
             {Array.from({ length: 2 }).map((_, dup) => (
-              <span key={dup} className="flex items-center gap-8">
-                {provinces.map((p) => (
-                  <span key={`${dup}-${p}`} className="flex items-center gap-8">
-                    <span className="hover:text-[var(--v4-paper)] transition-colors cursor-default">{p}</span>
-                    <span className="text-[var(--v4-violet)]/60">✦</span>
+              <span key={dup} className="flex items-center gap-10">
+                {ports.map((p) => (
+                  <span key={`${dup}-${p}`} className="flex items-center gap-10">
+                    {p} <span className="text-[var(--v4-crimson)]">✦</span>
                   </span>
                 ))}
               </span>
@@ -39,24 +43,27 @@ export function Network4() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid gap-px border-2 border-[var(--v4-ink)] bg-[var(--v4-ink)] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {network.map((p, i) => {
             const tone = tones[p.tone];
             return (
-              <BlurReveal key={p.id} delay={i * 0.05} className="h-full">
-                <div className="v4-glass group relative flex h-full flex-col items-center gap-3 rounded-2xl p-5 text-center transition-transform hover:-translate-y-1">
-                  <div
-                    className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full"
-                    style={{ background: `linear-gradient(135deg, ${tone.from}, ${tone.to})` }}
-                  >
-                    <span className="text-lg font-medium text-white">{p.initials}</span>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-sm font-medium text-[var(--v4-paper)]">{p.name}</span>
-                    <span className="v4-mono text-[10px] uppercase tracking-[0.22em] text-white/55">{p.role}</span>
-                  </div>
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="bg-[var(--v4-vellum)] p-5 flex flex-col items-center gap-3 text-center"
+              >
+                <div
+                  className="flex h-20 w-20 items-center justify-center border-2 border-[var(--v4-ink)] rounded-full overflow-hidden"
+                  style={{ background: `linear-gradient(135deg, ${tone.from}, ${tone.to})` }}
+                >
+                  <span className="v4-display italic text-3xl text-[var(--v4-vellum)]">{p.initials}</span>
                 </div>
-              </BlurReveal>
+                <span className="v4-display italic text-base text-[var(--v4-ink)] leading-tight">{p.name}</span>
+                <span className="v4-sc text-[9px] uppercase tracking-[0.22em] text-[var(--v4-ink-soft)]">{p.role}</span>
+              </motion.div>
             );
           })}
         </div>

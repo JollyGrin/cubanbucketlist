@@ -10,7 +10,7 @@ import { Footer4 } from '@/components/v4/Footer4';
 
 export default function V4Page() {
   return (
-    <main className="v4-root relative min-h-screen overflow-hidden">
+    <main className="v4-root relative overflow-hidden">
       <Nav4 />
       <Hero4 />
       <TheIdea4 />

@@ -9,12 +9,18 @@ import {
   Big_Shoulders_Display,
   Plus_Jakarta_Sans,
   Space_Mono,
-  Onest,
-  Instrument_Serif,
-  DM_Mono,
+  IM_Fell_English,
+  IM_Fell_English_SC,
+  La_Belle_Aurore,
   Bagel_Fat_One,
   Outfit,
   VT323,
+  Limelight,
+  Cormorant_Garamond,
+  Pinyon_Script,
+  Bungee,
+  Permanent_Marker,
+  Archivo,
 } from 'next/font/google';
 import './globals.css';
 import { VersionSwitcher } from '@/components/VersionSwitcher';
@@ -80,24 +86,66 @@ const v3Mono = Space_Mono({
   weight: ['400', '700'],
 });
 
-// V4 — Aurora SaaS
-const v4Sans = Onest({
+// V4 — Carta Marina (1700s cartography)
+const v4Display = IM_Fell_English({
   subsets: ['latin'],
-  variable: '--font-v4-sans',
-  display: 'swap',
-});
-const v4Serif = Instrument_Serif({
-  subsets: ['latin'],
-  variable: '--font-v4-serif',
+  variable: '--font-v4-display',
   display: 'swap',
   weight: ['400'],
   style: ['normal', 'italic'],
 });
-const v4Mono = DM_Mono({
+const v4Sc = IM_Fell_English_SC({
   subsets: ['latin'],
-  variable: '--font-v4-mono',
+  variable: '--font-v4-sc',
   display: 'swap',
-  weight: ['400', '500'],
+  weight: ['400'],
+});
+const v4Hand = La_Belle_Aurore({
+  subsets: ['latin'],
+  variable: '--font-v4-hand',
+  display: 'swap',
+  weight: ['400'],
+});
+
+// V6 — Tropicana (1950s Deco cabaret)
+const v6Display = Limelight({
+  subsets: ['latin'],
+  variable: '--font-v6-display',
+  display: 'swap',
+  weight: ['400'],
+});
+const v6Body = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-v6-body',
+  display: 'swap',
+  weight: ['300', '400', '500', '600'],
+  style: ['normal', 'italic'],
+});
+const v6Script = Pinyon_Script({
+  subsets: ['latin'],
+  variable: '--font-v6-script',
+  display: 'swap',
+  weight: ['400'],
+});
+
+// V7 — Tipografía de la Calle (Havana street signage)
+const v7Block = Bungee({
+  subsets: ['latin'],
+  variable: '--font-v7-block',
+  display: 'swap',
+  weight: ['400'],
+});
+const v7Brush = Permanent_Marker({
+  subsets: ['latin'],
+  variable: '--font-v7-brush',
+  display: 'swap',
+  weight: ['400'],
+});
+const v7Body = Archivo({
+  subsets: ['latin'],
+  variable: '--font-v7-body',
+  display: 'swap',
+  weight: ['400', '500', '700', '800'],
 });
 
 // V5 — Iridescent Chrome
@@ -144,7 +192,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable} ${hand.variable} ${v2Display.variable} ${v2Body.variable} ${v2Mono.variable} ${v3Display.variable} ${v3Body.variable} ${v3Mono.variable} ${v4Sans.variable} ${v4Serif.variable} ${v4Mono.variable} ${v5Display.variable} ${v5Body.variable} ${v5Mono.variable}`}
+      className={`${display.variable} ${sans.variable} ${hand.variable} ${v2Display.variable} ${v2Body.variable} ${v2Mono.variable} ${v3Display.variable} ${v3Body.variable} ${v3Mono.variable} ${v4Display.variable} ${v4Sc.variable} ${v4Hand.variable} ${v5Display.variable} ${v5Body.variable} ${v5Mono.variable} ${v6Display.variable} ${v6Body.variable} ${v6Script.variable} ${v7Block.variable} ${v7Brush.variable} ${v7Body.variable}`}
     >
       <body className="antialiased">
         <VersionSwitcher />

@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Logo } from './Logo';
-import { InstagramGlyph } from './icons';
 
 const links = [
   { href: '#journal', label: 'Journal' },
   { href: '#experiences', label: 'Experiences' },
   { href: '#vote', label: 'Vote', accent: true },
   { href: '#network', label: 'Our Locals' },
+  { href: '#join', label: 'Join us' },
   { href: '#about', label: 'About' },
 ];
 
@@ -139,12 +139,9 @@ export function Nav() {
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-tr from-coral via-coral to-mustard px-5 py-4 text-parchment shadow-[4px_4px_0_0_var(--color-ink)]"
                 >
-                  <span className="flex items-center gap-3">
-                    <InstagramGlyph className="h-5 w-5" />
-                    <span className="flex flex-col leading-tight">
-                      <span className="font-display text-lg font-semibold">Vote on what’s next</span>
-                      <span className="text-[11px] uppercase tracking-[0.2em] opacity-90">Sign in with Instagram</span>
-                    </span>
+                  <span className="flex flex-col leading-tight">
+                    <span className="font-display text-lg font-semibold">Vote on what’s next</span>
+                    <span className="text-[11px] uppercase tracking-[0.2em] opacity-90">Help shape the first trips</span>
                   </span>
                   <span aria-hidden>→</span>
                 </a>

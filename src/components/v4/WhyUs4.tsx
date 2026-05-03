@@ -1,35 +1,39 @@
 'use client';
 
-import { BlurReveal, TiltCard } from './primitives';
+import { motion } from 'framer-motion';
 
 const values = [
-  { n: '01', t: 'Real Cuba, real people.', b: 'Every experience starts in someone’s kitchen, workshop, or boat. No coaches, no resorts.', g: 'from-[var(--v4-violet)]/20 to-transparent' },
-  { n: '02', t: 'Locals get paid first.', b: 'Fair, transparent splits with the people who carry the trip. Trust is the entire moat.', g: 'from-[var(--v4-cyan)]/20 to-transparent' },
-  { n: '03', t: 'Stories worth telling.', b: 'You come back with a name in your contacts and one story your friends ask to hear twice.', g: 'from-[var(--v4-pink)]/20 to-transparent' },
+  { n: 'I', t: 'Real Cuba, real people.', b: 'Every voyage begins in someone’s kitchen, workshop, or boat. Never on a coach.' },
+  { n: 'II', t: 'Locals receive their share first.', b: 'Fair, transparent splits — paid before the trip departs. The whole moat is trust.' },
+  { n: 'III', t: 'Stories worth telling.', b: 'Thou shalt return with a name in thy contacts and one tale thy friends will request twice.' },
 ];
 
 export function WhyUs4() {
   return (
-    <section className="relative border-t v4-rule py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <BlurReveal>
-          <span className="v4-mono text-[10px] uppercase tracking-[0.32em] text-[var(--v4-violet)]">07 — principles</span>
-          <h2 className="mt-3 max-w-3xl text-balance text-4xl font-medium tracking-[-0.02em] md:text-6xl">
-            Three things we won’t compromise on.
+    <section className="relative border-t-2 border-[var(--v4-ink)] v4-parchment py-20 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }}
+          className="mb-12 border-b-2 border-[var(--v4-ink)] pb-6"
+        >
+          <span className="v4-sc text-[10px] uppercase tracking-[0.32em] text-[var(--v4-crimson)]">Chap. VII — Articles of Conduct</span>
+          <h2 className="mt-4 v4-display text-4xl leading-[1.02] text-[var(--v4-ink)] sm:text-5xl md:text-7xl">
+            Three <em className="text-[var(--v4-crimson)]">articles</em> we shall not break.
           </h2>
-        </BlurReveal>
+        </motion.div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="grid gap-px border-2 border-[var(--v4-ink)] bg-[var(--v4-ink)] md:grid-cols-3">
           {values.map((v, i) => (
-            <BlurReveal key={v.n} delay={i * 0.08}>
-              <TiltCard max={4}>
-                <div className={`v4-glass relative overflow-hidden rounded-2xl p-7 bg-gradient-to-br ${v.g}`}>
-                  <span className="v4-mono text-[10px] uppercase tracking-[0.32em] text-[var(--v4-cyan)]">{v.n}</span>
-                  <h3 className="mt-4 text-2xl font-medium tracking-tight md:text-3xl">{v.t}</h3>
-                  <p className="mt-3 text-base leading-relaxed text-white/70">{v.b}</p>
-                </div>
-              </TiltCard>
-            </BlurReveal>
+            <motion.div
+              key={v.n}
+              initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="bg-[var(--v4-vellum)] p-7 md:p-10"
+            >
+              <span className="v4-display italic text-7xl text-[var(--v4-crimson)]">{v.n}</span>
+              <h3 className="mt-4 v4-display italic text-2xl leading-tight text-[var(--v4-ink)] md:text-3xl">{v.t}</h3>
+              <p className="mt-3 v4-display text-base leading-relaxed text-[var(--v4-ink-soft)] md:text-lg">{v.b}</p>
+            </motion.div>
           ))}
         </div>
       </div>

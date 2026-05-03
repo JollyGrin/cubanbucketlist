@@ -1,44 +1,53 @@
 'use client';
 
-import { BlurReveal } from './primitives';
+import { motion } from 'framer-motion';
+import { Flourish } from './Cartouche';
 
 export function TheIdea4() {
   return (
-    <section id="about" className="relative border-t v4-rule py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+    <section id="about" className="relative border-t-2 border-[var(--v4-ink)] v4-parchment py-20 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
         <div className="grid gap-12 md:grid-cols-12 md:gap-16">
-          <div className="md:col-span-4">
-            <BlurReveal>
-              <span className="v4-mono text-[10px] uppercase tracking-[0.32em] text-[var(--v4-violet)]">02 — premise</span>
-              <h2 className="mt-4 text-balance text-4xl font-medium tracking-[-0.02em] md:text-6xl">
-                Not a tour company. <span className="v4-serif italic font-normal text-[var(--v4-cyan)]">A standing invitation.</span>
-              </h2>
-            </BlurReveal>
-          </div>
-          <div className="md:col-span-8">
-            <BlurReveal delay={0.1}>
-              <p className="text-lg leading-relaxed text-white/75 md:text-xl">
-                Cuban Bucket List is a small members-only publication. Twice a month we share a real
-                story from the island and a chance to vote on which experience we should turn into a
-                trip next. Locals get paid first. Members get the first invitation. Everyone else
-                hears about it later.
-              </p>
-            </BlurReveal>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }}
+            className="md:col-span-5"
+          >
+            <span className="v4-sc text-[10px] uppercase tracking-[0.32em] text-[var(--v4-crimson)]">Chap. II — The Premise</span>
+            <h2 className="mt-4 v4-display text-4xl leading-[1.02] text-[var(--v4-ink)] sm:text-5xl md:text-7xl">
+              We are no <em className="text-[var(--v4-crimson)]">company of tours.</em>
+            </h2>
+            <Flourish className="mt-6 h-3 w-44 text-[var(--v4-ink)]" />
+            <p className="mt-6 v4-hand text-2xl text-[var(--v4-deep-blue)]">— signed, the cartographers</p>
+          </motion.div>
 
-            <div className="mt-10 grid gap-px overflow-hidden rounded-2xl v4-glow-border md:grid-cols-3">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }}
+            transition={{ delay: 0.1 }}
+            className="md:col-span-7"
+          >
+            <p className="v4-display text-lg leading-[1.6] text-[var(--v4-ink-soft)] md:text-xl"
+              style={{ textIndent: '2em' }}>
+              We began as a fortnightly dispatch — short letters from the island sharing what one
+              cannot find on any printed itinerary. Hidden coves, family kitchens, mountain photographers,
+              the divers and mechanics whose names are passed only by word of mouth. Each chart you see
+              here was drawn from such a letter; each vote you cast helps us decide which we shall
+              transcribe next from <em>note</em> into <em>voyage</em>.
+            </p>
+
+            <ul className="mt-10 grid gap-px border-2 border-[var(--v4-ink)] bg-[var(--v4-ink)] sm:grid-cols-3">
               {[
-                { k: 'Group size', v: '3 – 12', s: 'most are 6 or fewer' },
-                { k: 'Local share', v: '70 – 85%', s: 'paid before the trip' },
-                { k: 'Provinces', v: '11', s: 'across the whole island' },
-              ].map((c, i) => (
-                <BlurReveal key={c.k} delay={0.15 + i * 0.06} className="bg-[var(--v4-bg-2)] p-6 md:p-7">
-                  <p className="v4-mono text-[10px] uppercase tracking-[0.24em] text-white/45">{c.k}</p>
-                  <p className="mt-2 text-4xl font-medium tracking-tight md:text-5xl">{c.v}</p>
-                  <p className="mt-1 v4-mono text-[10px] uppercase tracking-[0.22em] text-[var(--v4-cyan)]">{c.s}</p>
-                </BlurReveal>
+                ['Compagnie', '3 – 12', 'persons aboard'],
+                ['Local share', '70 – 85 %', 'paid afore the voyage'],
+                ['Provinces', '11', 'across the whole isle'],
+              ].map(([label, big, small]) => (
+                <li key={label} className="bg-[var(--v4-vellum)] p-6">
+                  <p className="v4-sc text-[10px] uppercase tracking-[0.28em] text-[var(--v4-ink-soft)]">{label}</p>
+                  <p className="mt-2 v4-display italic text-4xl text-[var(--v4-ink)] md:text-5xl">{big}</p>
+                  <p className="mt-1 v4-sc text-[10px] uppercase tracking-[0.24em] text-[var(--v4-crimson)]">{small}</p>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </motion.div>
         </div>
       </div>
     </section>

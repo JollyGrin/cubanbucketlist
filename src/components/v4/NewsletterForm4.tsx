@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MagneticButton } from './primitives';
+import { WaxSeal } from './Cartouche';
 
 export function NewsletterForm4() {
   const [email, setEmail] = useState('');
@@ -21,45 +21,42 @@ export function NewsletterForm4() {
       <AnimatePresence mode="wait">
         {state !== 'done' ? (
           <motion.div
-            key="form"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="v4-glow-border flex items-center gap-1 rounded-full p-1 v4-glass"
+            key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0"
           >
             <input
               type="email"
               required
               autoComplete="email"
-              placeholder="you@yourdomain.com"
+              placeholder="your@correspondence.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 bg-transparent px-4 py-3 text-[15px] text-[var(--v4-paper)] placeholder:text-white/35 focus:outline-none"
+              className="flex-1 border-2 border-[var(--v4-ink)] bg-[var(--v4-vellum)] px-5 py-3.5 v4-display italic text-lg text-[var(--v4-ink)] placeholder:text-[var(--v4-ink-soft)]/60 focus:outline-none sm:border-r-0"
             />
-            <MagneticButton
+            <button
               type="submit"
-              className="rounded-full bg-[var(--v4-paper)] px-5 py-3 text-[13px] font-medium text-[var(--v4-bg)] transition-shadow hover:shadow-[0_0_24px_rgba(167,139,250,0.55)]"
+              disabled={state === 'loading'}
+              className="v4-display border-2 border-[var(--v4-ink)] bg-[var(--v4-ink)] px-6 py-3.5 italic text-lg text-[var(--v4-vellum)] transition-colors hover:bg-[var(--v4-crimson)] disabled:opacity-70"
             >
-              {state === 'loading' ? 'Joining…' : 'Join the list →'}
-            </MagneticButton>
+              {state === 'loading' ? '. . .' : 'Subscribe ✦'}
+            </button>
           </motion.div>
         ) : (
           <motion.div
-            key="done"
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: 'spring', damping: 18, stiffness: 220 }}
-            className="v4-glow-border rounded-full v4-glass-strong px-5 py-4 flex items-center gap-3"
+            key="done" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 18 }}
+            className="flex items-center gap-4 border-2 border-[var(--v4-ink)] bg-[var(--v4-vellum-2)] px-5 py-4"
           >
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[var(--v4-cyan)] text-[var(--v4-bg)]">
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12l5 5L20 7" />
-              </svg>
-            </span>
-            <span className="text-sm">You’re in. Welcome dispatch is on its way.</span>
+            <WaxSeal className="h-12 w-12 v4-seal-press" label="✓" />
+            <div className="flex flex-col">
+              <span className="v4-display italic text-xl text-[var(--v4-ink)]">Sealed and sent.</span>
+              <span className="v4-sc text-[10px] tracking-[0.28em] text-[var(--v4-ink-soft)]">FIRST DISPATCH ON ITS WAY</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-      <p className="mt-3 v4-mono text-[10px] uppercase tracking-[0.28em] text-white/45">
-        free · twice a month · unsubscribe in one tap
+      <p className="mt-3 v4-sc text-[10px] uppercase tracking-[0.28em] text-[var(--v4-ink-soft)]">
+        Twice a month · by post · unsubscribe by reply
       </p>
     </form>
   );
